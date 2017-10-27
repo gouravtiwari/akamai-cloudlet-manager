@@ -1,0 +1,17 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    akamai-edgegrid (1.0.6)
+      inifile (~> 3.0)
+    inifile (3.0.0)
+    json (2.1.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  akamai-edgegrid (~> 1.0, >= 1.0.6)!
+  json!
+
+BUNDLED WITH
+   1.15.4
