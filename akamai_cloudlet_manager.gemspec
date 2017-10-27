@@ -20,4 +20,5 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'json', '~> 2.1'
   s.add_runtime_dependency 'thor', '~> 0.20.0'
   s.add_development_dependency 'rspec', '~> 3.7'
+  s.add_development_dependency 'rake'
 end

@@ -2,7 +2,7 @@
 
 Akamai API for changes to Property Manager etc via CLI
 
-
+[![Build Status](https://travis-ci.org/gouravtiwari/akamai-cloudlet-updater.svg?branch=master)](https://travis-ci.org/gouravtiwari/akamai-cloudlet-updater)
 
 ## Setup
 
