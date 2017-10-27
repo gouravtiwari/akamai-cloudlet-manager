@@ -1,0 +1,12 @@
+#!/usr/bin/env ruby
+
+require 'akamai_cloudlet_updater'
+require 'yaml'
+require 'thor'
+
+class AkamaiCloudletUpdaterCli < Thor
+
+
+end
+
+AkamaiCloudletUpdaterCli.start(ARGV)

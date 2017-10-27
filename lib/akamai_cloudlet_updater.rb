@@ -1,0 +1,5 @@
+require 'akamai_cloudlet_updater/base'
+require 'akamai_cloudlet_updater/detail'
+require 'akamai_cloudlet_updater/origin'
+require 'akamai_cloudlet_updater/policy_version'
+require 'akamai_cloudlet_updater/policy'
