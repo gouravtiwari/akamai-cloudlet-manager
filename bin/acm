@@ -1,14 +1,13 @@
 #!/usr/bin/env ruby
 
 require 'akamai_cloudlet_manager'
-require 'yaml'
 require 'thor'
 
 class AkamaiCloudletManagerCli < Thor
 
   desc "clone_version", "Clones the current version"
   long_desc <<-LONGDESC
-  Clones the current activated version. All new updates are performed in cloned    
+  Clones the current activated version. All new updates are performed in cloned version
     LONGDESC
   def clone_version
     puts "clones the version"
