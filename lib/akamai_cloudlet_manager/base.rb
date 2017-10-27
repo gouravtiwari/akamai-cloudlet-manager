@@ -3,7 +3,7 @@ require 'net/http'
 require 'uri'
 require 'json'
 
-module Cloudlet
+module AkamaiCloudletManager
   class Base
     def initialize(options = {})
       @http_host = Akamai::Edgegrid::HTTP.new(get_host(), 443)

@@ -1,9 +1,2 @@
-source 'https://rubygems.org' do
-  # ruby '2.3.1'
-  gem 'json'
-  gem 'akamai-edgegrid', '~> 1.0', '>= 1.0.6'
-
-  group :test do
-    gem 'rspec'
-  end
-end
+source "https://rubygems.org"
+gemspec

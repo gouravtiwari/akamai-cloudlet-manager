@@ -1,4 +1,4 @@
-module Cloudlet
+module AkamaiCloudletManager
   class Detail < Base
 
     def initialize(options = {})
