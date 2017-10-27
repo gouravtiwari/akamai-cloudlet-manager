@@ -14,7 +14,6 @@ GEM
     diff-lcs (1.3)
     inifile (3.0.0)
     json (2.1.0)
-    rake (12.2.1)
     rspec (3.7.0)
       rspec-core (~> 3.7.0)
       rspec-expectations (~> 3.7.0)
@@ -35,7 +34,6 @@ PLATFORMS
 
 DEPENDENCIES
   akamai_cloudlet_manager!
-  rake
   rspec (~> 3.7)
 
 BUNDLED WITH

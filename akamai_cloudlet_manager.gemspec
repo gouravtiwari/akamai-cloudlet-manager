@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
                    "lib/akamai_cloudlet_manager/policy_version.rb",
                    "lib/akamai_cloudlet_manager/policy.rb"
                  ]
-  s.executables << 'ac'
+  s.executables << 'acm'
   s.homepage    = 'https://github.com/gouravtiwari/akamai-cloudlet-manager'
   s.license       = 'MIT'
   s.add_runtime_dependency 'akamai-edgegrid', '~> 1.0', '>= 1.0.6'
