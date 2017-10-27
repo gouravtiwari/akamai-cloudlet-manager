@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    akamai_cloudlet_updater (0.0.1)
+    akamai_cloudlet_manager (0.0.1)
       akamai-edgegrid (~> 1.0, >= 1.0.6)
       json (~> 2.1)
       thor (~> 0.20.0)
@@ -33,7 +33,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  akamai_cloudlet_updater!
+  akamai_cloudlet_manager!
   rspec (~> 3.7)
 
 BUNDLED WITH

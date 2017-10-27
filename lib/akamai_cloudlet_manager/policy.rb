@@ -1,4 +1,4 @@
-module AkamaiCloudletUpdater
+module AkamaiCloudletManager
   class PolicyVersion < Base
     def initialize(options = {})
       @policy_id  = options[:policy_id]

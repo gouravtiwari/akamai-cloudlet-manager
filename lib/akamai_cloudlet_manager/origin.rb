@@ -1,4 +1,4 @@
-module AkamaiCloudletUpdater
+module AkamaiCloudletManager
   class Origin < Base
     # List cloudlet Origins
     # @type this is origin type, e.g. APPLICATION_LOAD_BALANCER
