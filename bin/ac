@@ -6,6 +6,24 @@ require 'thor'
 
 class AkamaiCloudletManagerCli < Thor
 
+  desc "clone_version", "Clones the current version"
+  long_desc <<-LONGDESC
+  Clones the current activated version. All new updates are performed in cloned    
+    LONGDESC
+  def clone_version
+    puts "clones the version"
+  end
+
+  desc "update_version", "Updates the version"
+  long_desc <<-LONGDESC
+  Updates the version
+    With --version, version which needs to be updated
+
+    LONGDESC
+  option :version, required: true
+  def update_version
+    puts "Updating to version: #{options[:version]}"
+  end
 
 end
 
