@@ -5,13 +5,13 @@ require 'thor'
 
 class AkamaiCloudletManagerCli < Thor
 
-  desc "get_policy_version", "Get policy versions"
+  desc "get_policy_versions", "Get policy versions"
   long_desc <<-LONGDESC
   Get the policy versions.
     With --policy_id, policy on which version to be cloned
     LONGDESC
-  option :policy_id, required: true
-  def get_policy_version
+  method_option :policy_id, required: true
+  def get_policy_versions
     puts "Policy version:"
     policy_version = AkamaiCloudletManager::PolicyVersion.new({policy_id: options[:policy_id] })
     puts policy_version.versions
@@ -22,13 +22,18 @@ class AkamaiCloudletManagerCli < Thor
   Clones the current activated version of a policy. All new updates are performed in cloned version
     With --policy_id, policy on which version to be cloned
     LONGDESC
-  option :policy_id, required: true
+  method_option :policy_id, required: true
   def clone_policy_version
     puts "clones the policy version"
     policy_version = AkamaiCloudletManager::PolicyVersion.new({policy_id: options[:policy_id] })
     begin
-      latest_version = JSON.parse(policy_version.versions).first["version"].to_s
-      policy_version.create(latest_version)
+      if !policy_version.versions.empty?
+        latest_version = JSON.parse(policy_version.versions).first["version"].to_s
+        p latest_version
+        # policy_version.create(latest_version)
+      else
+        puts "No policy versions available"
+      end
     rescue => err
       puts "cloning failed!"
       puts "Exception: #{err}"
@@ -45,9 +50,9 @@ class AkamaiCloudletManagerCli < Thor
 
     LONGDESC
 
-  option :policy_id,  required: true
-  option :draft_version, required: true
-  option :file_path, required: true
+  method_option :policy_id,  required: true
+  method_option :draft_version, required: true
+  method_option :file_path, required: true
   def update_policy_version
     puts "updates the policy version"
     policy_version = AkamaiCloudletManager::PolicyVersion.new({
@@ -73,9 +78,9 @@ class AkamaiCloudletManagerCli < Thor
     With --network, network on which policy version needs to be activated
 
     LONGDESC
-  option :policy_id,  required: true
-  option :version, required: true
-  option :network, required: true
+  method_option :policy_id,  required: true
+  method_option :version, required: true
+  method_option :network, required: true, enum: ['staging','production']
   def activate_policy_version
     puts "activates the policy version"
     policy_version = AkamaiCloudletManager::PolicyVersion.new({
