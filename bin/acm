@@ -8,24 +8,24 @@ class AkamaiCloudletManagerCli < Thor
   desc "get_policy_version", "Get policy versions"
   long_desc <<-LONGDESC
   Get the policy versions.
-    With --policy, policy on which version to be cloned
+    With --policy_id, policy on which version to be cloned
     LONGDESC
-  option :policy, required: true
-  def get_policy_version(policy_id)
+  option :policy_id, required: true
+  def get_policy_version
     puts "Policy version:"
-    policy_version = AkamaiCloudletManager::PolicyVersion.new({policy_id: options[:policy] })
+    policy_version = AkamaiCloudletManager::PolicyVersion.new({policy_id: options[:policy_id] })
     puts policy_version.versions
   end
 
   desc "clone_policy_version", "Clones the current policy version"
   long_desc <<-LONGDESC
   Clones the current activated version of a policy. All new updates are performed in cloned version
-    With --policy, policy on which version to be cloned
+    With --policy_id, policy on which version to be cloned
     LONGDESC
-  option :policy, required: true
-  def clone_policy_version(policy_id)
+  option :policy_id, required: true
+  def clone_policy_version
     puts "clones the policy version"
-    policy_version = AkamaiCloudletManager::PolicyVersion.new({policy_id: options[:policy] })
+    policy_version = AkamaiCloudletManager::PolicyVersion.new({policy_id: options[:policy_id] })
     begin
       latest_version = JSON.parse(policy_version.versions).first["version"].to_s
       policy_version.create(latest_version)
@@ -45,13 +45,13 @@ class AkamaiCloudletManagerCli < Thor
 
     LONGDESC
 
-  option :policy,  required: true
+  option :policy_id,  required: true
   option :draft_version, required: true
   option :file_path, required: true
   def update_policy_version
     puts "updates the policy version"
     policy_version = AkamaiCloudletManager::PolicyVersion.new({
-                                                                policy_id: options[:policy],
+                                                                policy_id: options[:policy_id],
                                                                 version_id: options[:draft_version]
                                                               })
     begin
@@ -68,20 +68,23 @@ class AkamaiCloudletManagerCli < Thor
   desc "activate_policy_version", "Activate the policy version on a given network(staging/production)"
   long_desc <<-LONGDESC
   Activates the policy version
-    With --policy, policy on which version to be activated
+    With --policy_id, policy on which version to be activated
     With --version, version which needs to be activated
     With --network, network on which policy version needs to be activated
 
     LONGDESC
-  option :policy,  required: true
+  option :policy_id,  required: true
   option :version, required: true
   option :network, required: true
   def activate_policy_version
     puts "activates the policy version"
-    policy_version = AkamaiCloudletManager::PolicyVersion.new({policy_id: options[:policy], version_id: options[:version] })
+    policy_version = AkamaiCloudletManager::PolicyVersion.new({
+                                                                policy_id: options[:policy_id],
+                                                                version_id: options[:version]
+                                                              })
     begin
       puts options[:network]
-      puts options[:policy]
+      puts options[:policy_id]
       puts options[:version]
       puts policy_version.activate(network)
     rescue => err
