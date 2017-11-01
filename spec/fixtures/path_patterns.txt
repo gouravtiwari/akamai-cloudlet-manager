@@ -1,0 +1,2 @@
+/random/path1
+/random/path2

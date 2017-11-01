@@ -5,23 +5,98 @@ require 'thor'
 
 class AkamaiCloudletManagerCli < Thor
 
-  desc "clone_version", "Clones the current version"
+  desc "get_policy_versions", "Get policy versions"
   long_desc <<-LONGDESC
-  Clones the current activated version. All new updates are performed in cloned version
+  Get the policy versions.
+    With --policy_id, policy on which version to be cloned
     LONGDESC
-  def clone_version
-    puts "clones the version"
+  method_option :policy_id, required: true
+  def get_policy_versions
+    puts "Policy version:"
+    policy_version = AkamaiCloudletManager::PolicyVersion.new({policy_id: options[:policy_id] })
+    puts policy_version.versions
   end
 
-  desc "update_version", "Updates the version"
+  desc "clone_policy_version", "Clones the current policy version"
   long_desc <<-LONGDESC
-  Updates the version
-    With --version, version which needs to be updated
+  Clones the current activated version of a policy. All new updates are performed in cloned version
+    With --policy_id, policy on which version to be cloned
+    LONGDESC
+  method_option :policy_id, required: true
+  def clone_policy_version
+    puts "clones the policy version"
+    policy_version = AkamaiCloudletManager::PolicyVersion.new({policy_id: options[:policy_id] })
+    begin
+      if !policy_version.versions.empty?
+        latest_version = JSON.parse(policy_version.versions).first["version"].to_s
+        p latest_version
+        # policy_version.create(latest_version)
+      else
+        puts "No policy versions available"
+      end
+    rescue => err
+      puts "cloning failed!"
+      puts "Exception: #{err}"
+      err
+    end
+  end
+
+  desc "update_policy_version", "Updates the policy version"
+  long_desc <<-LONGDESC
+  Updates the policy version. A policy version can be updated only in draft mode not when it is activated.
+    With --policy, policy on which version to be updated
+    With --draft_version, version which needs to be updated, this must be inactive version
+    With --file_path, file_path from which rules can be constructed and updated to policy version
 
     LONGDESC
-  option :version, required: true
-  def update_version
-    puts "Updating to version: #{options[:version]}"
+
+  method_option :policy_id,  required: true
+  method_option :draft_version, required: true
+  method_option :file_path, required: true
+  def update_policy_version
+    puts "updates the policy version"
+    policy_version = AkamaiCloudletManager::PolicyVersion.new({
+                                                                policy_id: options[:policy_id],
+                                                                version_id: options[:draft_version]
+                                                              })
+    begin
+      version_rules = policy_version.generate_rules(options[:file_path])
+      puts version_rules
+      puts policy_version.update(version_rules)
+    rescue => err
+      puts "update failed!"
+      puts "Exception: #{err}"
+      err
+    end
+  end
+
+  desc "activate_policy_version", "Activate the policy version on a given network(staging/production)"
+  long_desc <<-LONGDESC
+  Activates the policy version
+    With --policy_id, policy on which version to be activated
+    With --version, version which needs to be activated
+    With --network, network on which policy version needs to be activated
+
+    LONGDESC
+  method_option :policy_id,  required: true
+  method_option :version, required: true
+  method_option :network, required: true, enum: ['staging','production']
+  def activate_policy_version
+    puts "activates the policy version"
+    policy_version = AkamaiCloudletManager::PolicyVersion.new({
+                                                                policy_id: options[:policy_id],
+                                                                version_id: options[:version]
+                                                              })
+    begin
+      puts options[:network]
+      puts options[:policy_id]
+      puts options[:version]
+      puts policy_version.activate(network)
+    rescue => err
+      puts "activation failed!"
+      puts "Exception: #{err}"
+      err
+    end
   end
 
 end

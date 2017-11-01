@@ -6,7 +6,7 @@ Akamai API for changes to Property Manager etc via CLI
 
 ## Setup
 
-This step assumes you have ruby 2.3.1 install on local
+This step assumes you have ruby 2.3.1 ot 2.4.2 installed on local
 1. Get credentials in Akamai control panel (Luna)
 
 https://developer.akamai.com/introduction/Prov_Creds.html
