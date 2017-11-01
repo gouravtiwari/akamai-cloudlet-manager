@@ -15,13 +15,14 @@ RSpec.describe AkamaiCloudletManager::Detail do
     }
 
     describe 'attributes' do
-      it 'cloudlet_id' do
+      it 'has cloudlet_id' do
         expect(subject.instance_variable_get(:@cloudlet_id)).to eq('123')
       end
 
-      it 'group_id' do
+      it 'has group_id' do
         expect(subject.instance_variable_get(:@group_id)).to eq('456')
       end
     end
   end
+
 end
