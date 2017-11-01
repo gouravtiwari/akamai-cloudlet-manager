@@ -59,7 +59,7 @@ module AkamaiCloudletManager
     end
 
     # Update policy version, all rules
-    def update(policy_version_rules)
+    def update(policy_version_rules = {})
       request = Net::HTTP::Put.new(
           URI.join(@base_uri.to_s, "cloudlets/api/v2/policies/#{@policy_id}/versions/#{@version_id}?omitRules=false&matchRuleFormat=1.0").to_s,
           { 'Content-Type' => 'application/json'}
