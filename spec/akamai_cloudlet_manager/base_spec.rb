@@ -13,12 +13,11 @@ RSpec.describe AkamaiCloudletManager::Base do
 
     describe 'attributes' do
       it 'http_host' do
-        p subject.instance_variable_get(:@http_host)
-        expect(subject.instance_variable_get(:@http_host).class).to eq(Akamai::Edgegrid::HTTP)
+        expect(subject.instance_variable_get(:@http_host)).to be_kind_of(Akamai::Edgegrid::HTTP)
       end
 
       it 'base_uri' do
-        expect(subject.instance_variable_get(:@base_uri).class).to eq(URI::HTTPS)
+        expect(subject.instance_variable_get(:@base_uri)).to be_kind_of(URI::HTTPS)
       end
     end
   end
