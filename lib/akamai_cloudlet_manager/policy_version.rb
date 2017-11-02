@@ -71,15 +71,47 @@ module AkamaiCloudletManager
       response.body
     end
 
-    def generate_rules(file_path)
-      counter = 1
+    def generate_path_rules(file_path, options={})
+      rule_type      = options[:rule_type] || 'albMatchRule'
+      rule_name      = options[:rule_name]
+      origin_id      = options[:origin_id]
+      match_operator = options[:match_operator] || 'equals'
+      match_type     = 'path'
+
+      counter = 0
+      match_value = []
       begin
-          file = File.new(file_path, "r")
-          while (line = file.gets)
-              puts "#{counter}: #{line}"
-              counter = counter + 1
-          end
-          file.close
+        file = File.new(file_path, "r")
+        while (line = file.gets)
+            puts "#{counter}: #{line}"
+            match_value << line
+            counter += 1
+        end
+
+        match_value = match_value.join(' ').gsub(/\n/, '')
+        file.close
+
+        rules = {
+                  matchRules:[{
+                    type:     rule_type,
+                    id:       0,
+                    name:     rule_name,
+                    start:    0,
+                    end:      0,
+                    matchURL: nil,
+                    matches:  [{
+                      matchValue:    match_value,
+                      matchOperator: match_operator,
+                      negate:        false,
+                      caseSensitive: false,
+                      matchType:     match_type
+                    }],
+                    forwardSettings: {
+                      originId: origin_id
+                    }
+                  }]
+                }
+        puts rules
       rescue => err
           puts "Exception: #{err}"
           err
