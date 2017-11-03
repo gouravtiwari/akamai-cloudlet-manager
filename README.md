@@ -2,7 +2,7 @@
 
 Akamai API for changes to Property Manager etc via CLI
 
-[![Build Status](https://travis-ci.org/gouravtiwari/akamai-cloudlet-updater.svg?branch=master)](https://travis-ci.org/gouravtiwari/akamai-cloudlet-updater) [![Maintainability](https://api.codeclimate.com/v1/badges/9c35e419deec5c546f4e/maintainability)](https://codeclimate.com/github/gouravtiwari/akamai-cloudlet-manager/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/9c35e419deec5c546f4e/test_coverage)](https://codeclimate.com/github/gouravtiwari/akamai-cloudlet-manager/test_coverage)
+[![Build Status](https://travis-ci.org/gouravtiwari/akamai-cloudlet-manager.svg?branch=master)](https://travis-ci.org/gouravtiwari/akamai-cloudlet-manager) [![Maintainability](https://api.codeclimate.com/v1/badges/9c35e419deec5c546f4e/maintainability)](https://codeclimate.com/github/gouravtiwari/akamai-cloudlet-manager/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/9c35e419deec5c546f4e/test_coverage)](https://codeclimate.com/github/gouravtiwari/akamai-cloudlet-manager/test_coverage)
 
 ## Setup
 

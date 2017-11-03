@@ -2,6 +2,8 @@
 
 require 'akamai_cloudlet_manager'
 require 'thor'
+require 'json'
+require 'terminal-table'
 
 class AkamaiCloudletManagerCli < Thor
 
@@ -12,9 +14,12 @@ class AkamaiCloudletManagerCli < Thor
     LONGDESC
   method_option :policy_id, required: true
   def get_policy_versions
-    puts "Policy version:"
+    puts "Policy versions:"
     policy_version = AkamaiCloudletManager::PolicyVersion.new({policy_id: options[:policy_id] })
-    puts policy_version.versions
+    rows_title = ['Location','Revision','Description']
+    rows = JSON.parse(policy_version.versions).collect {|i| [i['location'], i['revisionId'], i['description']]}
+    rows.unshift(rows_title)
+    puts Terminal::Table.new rows: rows
   end
 
   desc "clone_policy_version", "Clones the current policy version"
