@@ -15,10 +15,11 @@ Gem::Specification.new do |s|
                  ]
   s.executables << 'acm'
   s.homepage    = 'https://github.com/gouravtiwari/akamai-cloudlet-manager'
-  s.license       = 'MIT'
+  s.license       = 'Apache License'
   s.add_runtime_dependency 'akamai-edgegrid', '~> 1.0', '>= 1.0.6'
   s.add_runtime_dependency 'json', '~> 2.1'
+  s.add_development_dependency 'rake' , '~> 12.2', '>= 12.2.1'
   s.add_runtime_dependency 'thor', '~> 0.20.0'
   s.add_development_dependency 'rspec', '~> 3.7'
-  s.add_development_dependency 'rake'
+  s.add_runtime_dependency 'terminal-table', '~> 1.8'
 end
