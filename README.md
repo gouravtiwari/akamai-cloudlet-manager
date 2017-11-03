@@ -1,4 +1,4 @@
-# akamai-api
+# Akamai cloudlet manager
 
 Akamai API for changes to Property Manager etc via CLI
 
