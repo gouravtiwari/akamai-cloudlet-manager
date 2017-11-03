@@ -74,9 +74,7 @@ module AkamaiCloudletManager
       request.body =  {
                         matchRules: rules
                       }.to_json
-      # puts request.body.to_json
       response = @http_host.request(request)
-      # puts response.body
       response.body
     end
 
@@ -84,10 +82,8 @@ module AkamaiCloudletManager
     def generate_path_rules(options={})
       return [] if options[:file_path].empty?
 
-      options[:match_operator] = 'equals'
-      options[:match_type]     = 'path'
-
-      counter = 0
+      options     = options.merge(match_operator: 'equals', match_type: 'path')
+      counter     = 0
       match_value = []
 
       file = File.new(options[:file_path], "r")
@@ -111,8 +107,7 @@ module AkamaiCloudletManager
     def generate_cookie_rules(options = {})
       return [] if options[:cookie_rules].empty?
 
-      options[:match_operator] = 'contains'
-      options[:match_type]     = 'cookie'
+      options = options.merge(match_operator: 'contains', match_type: 'cookie')
 
       match_rules(options[:cookie_rules], options)
     rescue => err
