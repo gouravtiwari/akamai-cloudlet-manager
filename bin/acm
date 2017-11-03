@@ -43,16 +43,24 @@ class AkamaiCloudletManagerCli < Thor
 
   desc "update_policy_version", "Updates the policy version"
   long_desc <<-LONGDESC
-  Updates the policy version. A policy version can be updated only in draft mode not when it is activated.
+  Updates the policy version. Policy version can be updated only in draft mode, not when it is activated.
     With --policy, policy on which version to be updated
     With --draft_version, version which needs to be updated, this must be inactive version
     With --file_path, file_path from which rules can be constructed and updated to policy version
+    With --rule_name, rule name so that it is visible in akamai control panel
+    With --rule_type, rule type, e.g. "albMatchRule"
+    With --origin_id, origin's id, this can be found from "get_policy_versions" command
+    With --cookie_rules, from which cookie rules can be constructed and updated to policy version
 
     LONGDESC
 
-  method_option :policy_id,  required: true
+  method_option :policy_id,     required: true
   method_option :draft_version, required: true
-  method_option :file_path, required: true
+  method_option :file_path,     required: true
+  method_option :rule_name,     required: true
+  method_option :origin_id,     required: true
+  method_option :rule_type,     required: false
+  method_option :cookie_rules,  required: false
   def update_policy_version
     puts "updates the policy version"
     policy_version = AkamaiCloudletManager::PolicyVersion.new({
@@ -60,52 +68,8 @@ class AkamaiCloudletManagerCli < Thor
                                                                 version_id: options[:draft_version]
                                                               })
     begin
-      version_rules = policy_version.generate_rules(options[:file_path])
-      puts version_rules
+      version_rules = policy_version.update(options)
       puts policy_version.update(version_rules)
-    rescue => err
-      puts "update failed!"
-      puts "Exception: #{err}"
-      err
-    end
-  end
-
-  desc "generate_path_rules", "Generate the policy rules"
-  long_desc <<-LONGDESC
-  Generate the policy rules. A policy version can be updated only in draft mode not when it is activated.
-    With --policy, policy on which version to be updated
-    With --draft_version, version which needs to be updated, this must be inactive version
-    With --file_path, file_path from which rules can be constructed and updated to policy version
-    With --rule_name, rule_name from which rules can be constructed and updated to policy version
-    With --rule_type, rule_type from which rules can be constructed and updated to policy version
-    With --origin_id, origin_id from which rules can be constructed and updated to policy version
-    With --match_operator, match_operator from which rules can be constructed and updated to policy version
-
-    LONGDESC
-
-  method_option :policy_id,  required: true
-  method_option :draft_version, required: true
-  method_option :file_path, required: true
-  method_option :rule_name, required: true
-  method_option :origin_id, required: true
-  method_option :rule_type, required: false
-  method_option :match_operator, required: false
-  def generate_path_rules
-    puts "generate_path_rules"
-    policy_version = AkamaiCloudletManager::PolicyVersion.new({
-                                                                policy_id: options[:policy_id],
-                                                                version_id: options[:draft_version]
-                                                              })
-    begin
-      version_rules = policy_version.generate_path_rules(
-        options[:file_path],
-        {
-          rule_name: options[:rule_name],
-          rule_type: options[:rule_type],
-          origin_id: options[:origin_id],
-          match_operator: options[:match_operator]
-        })
-      puts version_rules
     rescue => err
       puts "update failed!"
       puts "Exception: #{err}"
