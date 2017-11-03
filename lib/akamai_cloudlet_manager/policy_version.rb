@@ -60,21 +60,19 @@ module AkamaiCloudletManager
 
     # Update policy version, all rules
     def update(options = {})
-      return if options.empty?
-
       request = Net::HTTP::Put.new(
           URI.join(@base_uri.to_s, "cloudlets/api/v2/policies/#{@policy_id}/versions/#{@version_id}?omitRules=false&matchRuleFormat=1.0").to_s,
           { 'Content-Type' => 'application/json'}
         )
-      match_rules  = generate_path_rules(options) + generate_cookie_rules(options)
+      rules = generate_path_rules(options) + generate_cookie_rules(options)
 
-      if match_rules.empty?
+      if rules.empty?
         puts "No rules to apply, please check syntax"
         return
       end
 
       request.body =  {
-                        matchRules: match_rules
+                        matchRules: rules
                       }
       # puts request.body.to_json
       response = @http_host.request(request)
@@ -107,6 +105,32 @@ module AkamaiCloudletManager
 
       match_value = match_value.join(' ').gsub(/\n/, '')
 
+      match_rules(rule_type, rule_name, match_value, match_operator, match_type, origin_id)
+    rescue => err
+      puts "Exception: #{err}"
+      err
+    end
+
+    # All the path rules from one file will be added under same match, space separated
+    def generate_cookie_rules(options = {})
+      return [] if options[:cookie_rules].empty?
+
+      rule_type      = options[:rule_type] || 'albMatchRule'
+      rule_name      = options[:rule_name]
+      origin_id      = options[:origin_id]
+      match_value    = options[:cookie_rules]
+      match_operator = 'contains'
+      match_type     = 'cookie'
+
+      match_rules(rule_type, rule_name, match_value, match_operator, match_type, origin_id)
+    rescue => err
+      puts "Exception: #{err}"
+      err
+    end
+
+    private
+
+    def match_rules(rule_type, rule_name, match_value, match_operator, match_type, origin_id)
       [{
         type:     rule_type,
         id:       0,
@@ -125,44 +149,6 @@ module AkamaiCloudletManager
           originId: origin_id
         }
       }]
-    rescue => err
-      puts "Exception: #{err}"
-      err
     end
-
-    # All the path rules from one file will be added under same match, space separated
-    def generate_cookie_rules(options = {})
-      return [] if options[:cookie_rules].empty?
-
-      rule_type      = options[:rule_type] || 'albMatchRule'
-      rule_name      = options[:rule_name]
-      origin_id      = options[:origin_id]
-      match_value    = options[:cookie_rules]
-      match_operator = 'contains'
-      match_type     = 'cookie'
-
-      counter = 0
-      [{
-        type:     rule_type,
-        id:       0,
-        name:     rule_name,
-        start:    0,
-        end:      0,
-        matchURL: nil,
-        matches:  [{
-          matchValue:    match_value,
-          matchOperator: match_operator,
-          caseSensitive: false,
-          matchType:     match_type
-        }],
-        forwardSettings: {
-          originId: origin_id
-        }
-      }]
-    rescue => err
-      puts "Exception: #{err}"
-      err
-    end
-
   end
 end

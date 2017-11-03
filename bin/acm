@@ -68,8 +68,7 @@ class AkamaiCloudletManagerCli < Thor
                                                                 version_id: options[:draft_version]
                                                               })
     begin
-      version_rules = policy_version.update(options)
-      puts policy_version.update(version_rules)
+      puts policy_version.update(options)
     rescue => err
       puts "update failed!"
       puts "Exception: #{err}"
