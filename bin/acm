@@ -100,7 +100,7 @@ class AkamaiCloudletManagerCli < Thor
       puts options[:network]
       puts options[:policy_id]
       puts options[:version]
-      puts policy_version.activate(network)
+      puts policy_version.activate(options[:network])
     rescue => err
       puts "activation failed!"
       puts "Exception: #{err}"
