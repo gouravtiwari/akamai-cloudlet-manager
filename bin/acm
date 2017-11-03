@@ -5,7 +5,7 @@ require 'thor'
 
 class AkamaiCloudletManagerCli < Thor
 
-  desc "get_policy_versions", "Get policy versions"
+  desc "get_policy_versions", "Get all versions of a policy"
   long_desc <<-LONGDESC
   Get the policy versions.
     With --policy_id, policy on which version to be cloned
@@ -24,13 +24,12 @@ class AkamaiCloudletManagerCli < Thor
     LONGDESC
   method_option :policy_id, required: true
   def clone_policy_version
-    puts "clones the policy version"
     policy_version = AkamaiCloudletManager::PolicyVersion.new({policy_id: options[:policy_id] })
     begin
       if !policy_version.versions.empty?
         latest_version = JSON.parse(policy_version.versions).first["version"].to_s
-        p latest_version
-        # policy_version.create(latest_version)
+        puts "cloning policy version: #{latest_version}"
+        puts policy_version.create(latest_version)
       else
         puts "No policy versions available"
       end
@@ -48,9 +47,9 @@ class AkamaiCloudletManagerCli < Thor
     With --draft_version, version which needs to be updated, this must be inactive version
     With --file_path, file_path from which rules can be constructed and updated to policy version
     With --rule_name, rule name so that it is visible in akamai control panel
-    With --rule_type, rule type, e.g. "albMatchRule"
     With --origin_id, origin's id, this can be found from "get_policy_versions" command
-    With --cookie_rules, from which cookie rules can be constructed and updated to policy version
+    With --rule_type, rule type, e.g. "albMatchRule"
+    With --cookie_rules, from which cookie rules can be constructed and updated to policy version, e.g. "abc=xyz"
 
     LONGDESC
 
@@ -81,7 +80,7 @@ class AkamaiCloudletManagerCli < Thor
   Activates the policy version
     With --policy_id, policy on which version to be activated
     With --version, version which needs to be activated
-    With --network, network on which policy version needs to be activated
+    With --network, network on which policy version needs to be activated, e.g. staging/production
 
     LONGDESC
   method_option :policy_id,  required: true

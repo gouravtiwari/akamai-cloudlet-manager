@@ -6,7 +6,11 @@ Akamai API for changes to Property Manager etc via CLI
 
 ## Setup
 
-This step assumes you have ruby 2.3.1 ot 2.4.2 installed on local
+#### Prerequisites
+  These steps assume that you have ruby 2.3.1 or 2.4.2 installed
+
+#### Steps
+
 1. Get credentials in Akamai control panel (Luna)
 
 https://developer.akamai.com/introduction/Prov_Creds.html
@@ -25,37 +29,52 @@ It should resemble like this:
 3. Ensure you have bundler installed:
 
 	```
-	gem install bundler
+	gem install akamai_cloudlet_manager
 	```
 
-4. 	From this project directory, execute:
+## Akamai Cloudlet Manager: Power of CLI
 
-	```
-	bundle install
-	```
+This Gem provides a CLI, which makes akamai-cloudlet api calls very easy.
 
-## Making API call
+#### Get help
+```sh
+$ acm --help
+// Lists all available commands
+```
 
-To check if setup is good, from the commandline, execute:
+#### Updating a policy version
 
-	ruby cloudlet.rb
+To update a policy version with new set of rules, these are series of steps you need to perform in order:
 
-Further details to be added
+1. Get policy version
 
-### To update matchrules:
+```
+# Get all versions of a policy
+acm get_policy_versions --policy-id=POLICY_ID
+```
 
-1. Create a new policy version
+2. Clone policy version
 
-  // Say Current version is 2
+```
+# Clones the current policy version
+acm clone_policy_version --policy-id=POLICY_ID
+```
 
-  cloudlet.create_policy_version('XXXXX', '2')
+3. Update the cloned policy(draft policy)
 
-  // This updates and give us new version 3
+```
+acm update_policy_version --draft-version=DRAFT_VERSION --file-path=FILE_PATH --origin-id=ORIGIN_ID --policy-id=POLICY_ID --rule-name=RULE_NAME
+```
 
-2. Update Rules in new policy
+Optional parameter to the above command are:
+```
+--rule_type, rule type, e.g. "albMatchRule"
+--cookie_rules, from which cookie rules can be constructed and updated to policy version, e.g. "abc=xyz"
+```
 
-  cloudlet.update_rules('XXXXX', '3')
+4. Activate policy version
 
-3. Activate policy version on a network (staging/production)
-
-  cloudlet.activate_policy_version('XXXXX', '3', 'staging')
+Once rules look good in luna panel, you can activate policy to a given network(staging/production)
+```
+acm activate_policy_version --network=NETWORK --policy-id=POLICY_ID --version=VERSION
+```

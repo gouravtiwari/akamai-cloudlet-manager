@@ -73,7 +73,7 @@ module AkamaiCloudletManager
 
       request.body =  {
                         matchRules: rules
-                      }
+                      }.to_json
       # puts request.body.to_json
       response = @http_host.request(request)
       # puts response.body
