@@ -84,17 +84,13 @@ module AkamaiCloudletManager
     def generate_path_rules(options={})
       return [] if options[:file_path].empty?
 
-      file_path      = options[:file_path]
-      rule_type      = options[:rule_type] || 'albMatchRule'
-      rule_name      = options[:rule_name]
-      origin_id      = options[:origin_id]
-      match_operator = 'equals'
-      match_type     = 'path'
+      options[:match_operator] = 'equals'
+      options[:match_type]     = 'path'
 
       counter = 0
       match_value = []
 
-      file = File.new(file_path, "r")
+      file = File.new(options[:file_path], "r")
       while (line = file.gets)
         match_value << line
         counter += 1
@@ -105,7 +101,7 @@ module AkamaiCloudletManager
 
       match_value = match_value.join(' ').gsub(/\n/, '')
 
-      match_rules(rule_type, rule_name, match_value, match_operator, match_type, origin_id)
+      match_rules(match_value, options)
     rescue => err
       puts "Exception: #{err}"
       err
@@ -115,14 +111,10 @@ module AkamaiCloudletManager
     def generate_cookie_rules(options = {})
       return [] if options[:cookie_rules].empty?
 
-      rule_type      = options[:rule_type] || 'albMatchRule'
-      rule_name      = options[:rule_name]
-      origin_id      = options[:origin_id]
-      match_value    = options[:cookie_rules]
-      match_operator = 'contains'
-      match_type     = 'cookie'
+      options[:match_operator] = 'contains'
+      options[:match_type]     = 'cookie'
 
-      match_rules(rule_type, rule_name, match_value, match_operator, match_type, origin_id)
+      match_rules(options[:cookie_rules], options)
     rescue => err
       puts "Exception: #{err}"
       err
@@ -130,23 +122,23 @@ module AkamaiCloudletManager
 
     private
 
-    def match_rules(rule_type, rule_name, match_value, match_operator, match_type, origin_id)
+    def match_rules(match_value, options)
       [{
-        type:     rule_type,
+        type:     options[:rule_type] || 'albMatchRule',
         id:       0,
-        name:     rule_name,
+        name:     options[:rule_name],
         start:    0,
         end:      0,
         matchURL: nil,
         matches:  [{
           matchValue:    match_value,
-          matchOperator: match_operator,
+          matchOperator: options[:match_operator],
           negate:        false,
           caseSensitive: false,
-          matchType:     match_type
+          matchType:     options[:match_type]
         }],
         forwardSettings: {
-          originId: origin_id
+          originId: options[:origin_id]
         }
       }]
     end
