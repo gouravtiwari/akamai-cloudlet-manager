@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name        = 'akamai_cloudlet_manager'
   s.version     = '0.0.1'
-  s.date        = '2017-10-27'
+  s.date        = '2017-11-03'
   s.summary     = "Akamai Cloudlet Manager"
   s.description = "Akamai Cloudlet Manager manages all the cloudlet api."
   s.authors     = ["Gourav Tiwari","Ankit Gupta"]
