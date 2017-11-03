@@ -3,6 +3,7 @@ require 'akamai_cloudlet_manager/detail'
 require 'akamai_cloudlet_manager/origin'
 require 'akamai_cloudlet_manager/policy_version'
 require 'akamai_cloudlet_manager/policy'
+require 'extensions/exception'
 
 module AkamaiCloudletManager
   def self.root
