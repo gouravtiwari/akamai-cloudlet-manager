@@ -12,7 +12,6 @@ module AkamaiCloudletManager
         "/cloudlets/api/v2/policies/#{@policy_id}/properties"
       ).to_s
       response = @http_host.request(request)
-      # puts response.body
       response.body
     end
   end

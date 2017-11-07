@@ -39,8 +39,7 @@ class AkamaiCloudletManagerCli < Thor
         puts "No policy versions available"
       end
     rescue => err
-      puts "cloning failed!"
-      puts "Exception: #{err}"
+      puts "Exception: #{err.formatted_exception("Policy cloning failed!")}"
       err
     end
   end
@@ -66,7 +65,7 @@ class AkamaiCloudletManagerCli < Thor
   method_option :rule_type,     required: false
   method_option :cookie_rules,  required: false
   def update_policy_version
-    puts "updates the policy version"
+    puts "updating the policy version"
     policy_version = AkamaiCloudletManager::PolicyVersion.new({
                                                                 policy_id: options[:policy_id],
                                                                 version_id: options[:draft_version]
@@ -91,7 +90,7 @@ class AkamaiCloudletManagerCli < Thor
   method_option :version, required: true
   method_option :network, required: true, enum: ['staging','production']
   def activate_policy_version
-    puts "activates the policy version"
+    puts "activating the policy version"
     policy_version = AkamaiCloudletManager::PolicyVersion.new({
                                                                 policy_id: options[:policy_id],
                                                                 version_id: options[:version]
@@ -102,8 +101,7 @@ class AkamaiCloudletManagerCli < Thor
       puts options[:version]
       puts policy_version.activate(options[:network])
     rescue => err
-      puts "activation failed!"
-      puts "Exception: #{err}"
+      puts "Exception: #{err.formatted_exception("Policy activation failed!")}"
       err
     end
   end

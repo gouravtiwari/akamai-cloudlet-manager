@@ -7,11 +7,9 @@ module AkamaiCloudletManager
     end
 
     # Get Policy version's rules
-    # request  = Net::HTTP::Get.new URI.join(@base_uri.to_s, "cloudlets/api/v2/policies/38548/versions/1?omitRules=false&matchRuleFormat=1.0"').to_s
     def rules
       request  = Net::HTTP::Get.new URI.join(@base_uri.to_s, "cloudlets/api/v2/policies/#{@policy_id}/versions/#{@version_id}?omitRules=false&matchRuleFormat=1.0").to_s
       response = @http_host.request(request)
-      # puts response.body
       response.body
     end
 
@@ -23,7 +21,6 @@ module AkamaiCloudletManager
         "cloudlets/api/v2/policies/#{@policy_id}/versions?includeRules=false&matchRuleFormat=1.0"
       ).to_s
       response = @http_host.request(request)
-      # puts response.body
       response.body
     end
 
@@ -37,7 +34,6 @@ module AkamaiCloudletManager
         { 'Content-Type' => 'application/json'}
       )
       response = @http_host.request(request)
-      # puts response.body
       response.body
     end
 
@@ -54,7 +50,6 @@ module AkamaiCloudletManager
         "network": network
       }.to_json
       response = @http_host.request(request)
-      # puts response.body
       response.body
     end
 
@@ -99,7 +94,7 @@ module AkamaiCloudletManager
 
       match_rules(match_value, options)
     rescue => err
-      puts "Exception: #{err}"
+      puts "Exception: #{err.formatted_exception("Path rules generation failed!")}"
       err
     end
 
@@ -111,7 +106,7 @@ module AkamaiCloudletManager
 
       match_rules(options[:cookie_rules], options)
     rescue => err
-      puts "Exception: #{err}"
+      puts "Exception: #{err.formatted_exception("Cookie rules generation failed!")}"
       err
     end
 
