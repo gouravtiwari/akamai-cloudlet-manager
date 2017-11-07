@@ -11,7 +11,6 @@ module AkamaiCloudletManager
     def info
       request  = Net::HTTP::Get.new URI.join(@base_uri.to_s, "cloudlets/api/v2/cloudlet-info/#{@cloudlet_id}").to_s
       response = @http_host.request(request)
-      # puts response.body
       response.body
     end
 
@@ -19,7 +18,6 @@ module AkamaiCloudletManager
     def list
       request  = Net::HTTP::Get.new URI.join(@base_uri.to_s, "cloudlets/api/v2/cloudlet-info?#{@group_id}").to_s
       response = @http_host.request(request)
-      # puts response.body
       response.body
     end
   end
