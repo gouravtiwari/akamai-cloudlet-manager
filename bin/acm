@@ -78,6 +78,40 @@ class AkamaiCloudletManagerCli < Thor
     end
   end
 
+  desc "append_rules_to_policy_version", "Appends new rules to existing policy version"
+  long_desc <<-LONGDESC
+  Append new rules to existing policy version. Policy version can be updated only in draft mode, not when it is activated.
+    With --policy, policy on which version to be updated
+    With --draft_version, version which needs to be updated, this must be inactive version
+    With --file_path, file_path from which rules can be constructed and updated to policy version
+    With --rule_name, rule name so that it is visible in akamai control panel
+    With --origin_id, origin's id, this can be found from "get_policy_versions" command
+    With --rule_type, rule type, e.g. "albMatchRule"
+    With --cookie_rules, from which cookie rules can be constructed and updated to policy version, e.g. "abc=xyz"
+
+    LONGDESC
+
+  method_option :policy_id,     required: true
+  method_option :draft_version, required: true
+  method_option :file_path,     required: true
+  method_option :rule_name,     required: true
+  method_option :origin_id,     required: true
+  method_option :rule_type,     required: false
+  method_option :cookie_rules,  required: false
+  def append_rules_to_policy_version
+    puts "Appending rules to draft policy version with existing rules"
+    policy_version = AkamaiCloudletManager::PolicyVersion.new({
+                                                                policy_id: options[:policy_id],
+                                                                version_id: options[:draft_version]
+                                                              })
+    begin
+      puts policy_version.append(options)
+    rescue => err
+      puts "Exception: #{err.formatted_exception("Policy version update failed!")}"
+      err
+    end
+  end
+
   desc "activate_policy_version", "Activate the policy version on a given network(staging/production)"
   long_desc <<-LONGDESC
   Activates the policy version

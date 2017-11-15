@@ -7,7 +7,7 @@ module AkamaiCloudletManager
     end
 
     # Get Policy version's rules
-    def rules
+    def existing_rules
       request  = Net::HTTP::Get.new URI.join(@base_uri.to_s, "cloudlets/api/v2/policies/#{@policy_id}/versions/#{@version_id}?omitRules=false&matchRuleFormat=1.0").to_s
       response = @http_host.request(request)
       response.body
@@ -53,13 +53,23 @@ module AkamaiCloudletManager
       response.body
     end
 
+    def append(options={})
+      # Removing location is mandatory from matchRules, otherwise we see this error:
+      # matchRules : object instance has properties which are not allowed by the schema: [\"location\"]\n"
+      rules = JSON.parse(existing_rules)
+      rules = rules["matchRules"].map{|rule| rule.delete('location'); rule; }
+
+      update(options, rules)
+    end
+
     # Update policy version, all rules
-    def update(options = {})
+    def update(options = {}, existing_rules = [])
+
       request = Net::HTTP::Put.new(
           URI.join(@base_uri.to_s, "cloudlets/api/v2/policies/#{@policy_id}/versions/#{@version_id}?omitRules=false&matchRuleFormat=1.0").to_s,
           { 'Content-Type' => 'application/json'}
         )
-      rules = generate_path_rules(options) + generate_cookie_rules(options)
+      rules = generate_path_rules(options) + generate_cookie_rules(options) + existing_rules
 
       if rules.empty?
         puts "No rules to apply, please check syntax"
@@ -77,7 +87,7 @@ module AkamaiCloudletManager
     def generate_path_rules(options={})
       return [] if options[:file_path].empty?
 
-      options     = options.merge(match_operator: 'equals', match_type: 'path')
+      options     = options.merge(match_operator: 'contains', match_type: 'path')
       counter     = 0
       match_value = []
 
