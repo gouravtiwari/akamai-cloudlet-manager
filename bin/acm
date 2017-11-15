@@ -47,7 +47,7 @@ class AkamaiCloudletManagerCli < Thor
   desc "update_policy_version", "Updates the policy version"
   long_desc <<-LONGDESC
   Updates the policy version. Policy version can be updated only in draft mode, not when it is activated.
-    With --policy, policy on which version to be updated
+    With --policy_id, policy on which version to be updated
     With --draft_version, version which needs to be updated, this must be inactive version
     With --file_path, file_path from which rules can be constructed and updated to policy version
     With --rule_name, rule name so that it is visible in akamai control panel
@@ -81,7 +81,7 @@ class AkamaiCloudletManagerCli < Thor
   desc "append_rules_to_policy_version", "Appends new rules to existing policy version"
   long_desc <<-LONGDESC
   Append new rules to existing policy version. Policy version can be updated only in draft mode, not when it is activated.
-    With --policy, policy on which version to be updated
+    With --policy_id, policy on which version to be updated
     With --draft_version, version which needs to be updated, this must be inactive version
     With --file_path, file_path from which rules can be constructed and updated to policy version
     With --rule_name, rule name so that it is visible in akamai control panel

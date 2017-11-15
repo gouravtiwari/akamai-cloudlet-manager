@@ -85,7 +85,7 @@ module AkamaiCloudletManager
 
     # All the path rules from one file will be added under same match, space separated
     def generate_path_rules(options={})
-      return [] if options[:file_path].empty?
+      return [] if options[:file_path].nil? || options[:file_path].empty?
 
       options     = options.merge(match_operator: 'contains', match_type: 'path')
       counter     = 0
@@ -110,7 +110,7 @@ module AkamaiCloudletManager
 
     # All the path rules from one file will be added under same match, space separated
     def generate_cookie_rules(options = {})
-      return [] if options[:cookie_rules].empty?
+      return [] if options[:cookie_rules].nil? || options[:cookie_rules].empty?
 
       options = options.merge(match_operator: 'contains', match_type: 'cookie')
 
