@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name        = 'akamai_cloudlet_manager'
-  s.version     = '0.0.1'
-  s.date        = '2017-11-03'
+  s.version     = '0.0.2'
+  s.date        = '2017-11-18'
   s.summary     = "Akamai Cloudlet Manager"
   s.description = "Akamai Cloudlet Manager manages all the cloudlet api."
   s.authors     = ["Gourav Tiwari","Ankit Gupta"]
@@ -15,7 +15,7 @@ Gem::Specification.new do |s|
                  ]
   s.executables << 'acm'
   s.homepage    = 'https://github.com/gouravtiwari/akamai-cloudlet-manager'
-  s.license       = 'Apache License'
+  s.license     = 'Apache-2.0'
   s.add_runtime_dependency 'akamai-edgegrid', '~> 1.0', '>= 1.0.6'
   s.add_runtime_dependency 'json', '~> 2.1'
   s.add_development_dependency 'rake' , '~> 12.2', '>= 12.2.1'
