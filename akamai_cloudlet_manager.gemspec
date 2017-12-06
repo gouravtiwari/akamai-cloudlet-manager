@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name        = 'akamai_cloudlet_manager'
-  s.version     = '0.0.2'
-  s.date        = '2017-11-18'
+  s.version     = '0.0.3'
+  s.date        = '2017-12-05'
   s.summary     = "Akamai Cloudlet Manager"
   s.description = "Akamai Cloudlet Manager manages all the cloudlet api."
   s.authors     = ["Gourav Tiwari","Ankit Gupta"]
@@ -11,7 +11,8 @@ Gem::Specification.new do |s|
                    "lib/akamai_cloudlet_manager/detail.rb",
                    "lib/akamai_cloudlet_manager/origin.rb",
                    "lib/akamai_cloudlet_manager/policy_version.rb",
-                   "lib/akamai_cloudlet_manager/policy.rb"
+                   "lib/akamai_cloudlet_manager/policy.rb",
+                   "lib/extensions/exception.rb"
                  ]
   s.executables << 'acm'
   s.homepage    = 'https://github.com/gouravtiwari/akamai-cloudlet-manager'
